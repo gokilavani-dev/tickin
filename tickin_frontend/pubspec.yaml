@@ -1,0 +1,32 @@
+name: book_yours
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.9.0
+  flutter_secure_storage: ^10.0.0
+  http: ^1.2.2
+  intl: ^0.20.2
+  url_launcher: ^6.2.5
+  provider: ^6.0.5
+  geolocator: ^12.0.0
+  month_picker_dialog: ^6.7.1
+  onesignal_flutter: ^5.0.0
+  shared_preferences: ^2.2.2
+  permission_handler: ^11.0.0
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/truck.png
