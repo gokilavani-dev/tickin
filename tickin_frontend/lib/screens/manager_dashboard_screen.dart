@@ -73,7 +73,18 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
     final userId = widget.userId;
     String? playerId;
 
-    // ⏳ wait until OneSignal subscription ready
+    // 1️⃣ Link external user first (login can rotate subscription id)
+    try {
+      await OneSignal.login(userId);
+    } catch (e) {
+      debugPrint("❌ OneSignal login failed: $e");
+      return;
+    }
+
+    debugPrint("✅ OneSignal linked");
+    debugPrint("userId = $userId");
+
+    // 2️⃣ Wait until OneSignal subscription ready (after login)
     for (int i = 0; i < 20; i++) {
       playerId = OneSignal.User.pushSubscription.id;
       if (playerId != null && playerId.isNotEmpty) break;
@@ -81,18 +92,13 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
     }
 
     if (playerId == null || playerId.isEmpty) {
-      debugPrint("❌ OneSignal subscription not ready");
+      debugPrint("❌ OneSignal subscription not ready after login");
       return;
     }
 
-    // 1️⃣ Link external user
-    await OneSignal.login(userId);
-
-    debugPrint("✅ OneSignal linked");
-    debugPrint("userId = $userId");
     debugPrint("playerId = $playerId");
 
-    // 2️⃣ Sync playerId to backend
+    // 3️⃣ Sync playerId to backend
     final scope = TickinAppScope.of(context);
 
     try {
